@@ -31,7 +31,7 @@ getDinoData().then((dinoData) => {
         entry.where,
         entry.when,
         entry.fact,
-        ""
+        `images/${entry.species.toLowerCase()}.png`
       )
     );
   }
@@ -50,18 +50,18 @@ function getHumanData() {
     let inches = document.getElementById("inches").value;
     let weight = document.getElementById("weight").value;
     let diet = document.getElementById("diet").value;
-    const HUMAN_IMAGE = "human.png";
+    const HUMAN_IMAGE = "images/human.png";
 
     function getName() {
       return name;
     }
 
-    function getTotalHeightInInches() {
+    function calculateHeightInInches() {
       return parseFloat(feet * 12) + parseFloat(inches);
     }
 
     function getHeight() {
-      return getTotalHeightInInches();
+      return calculateHeightInInches();
     }
 
     function getWeight() {
@@ -129,7 +129,7 @@ Dino.prototype.getRandomFact = function (humanToCompare) {
   const getFact = () => this.fact;
 
   const factFunctions = [
-    getFact,
+    () => this.fact,
     this.compareWeight,
     this.compareHeight,
     this.compareDiet,
@@ -156,7 +156,9 @@ getTileHtml = (titleText, subText, image) => `
 generateCompliment = async () => {
   let compliment = await fetch("https://complimentr.com/api")
     .then((response) => response.json())
+    // add a trailing period to the sentence
     .then((data) => `${data.compliment}.`)
+    // return sentence with first letter in uppercase
     .then((text) => text.charAt(0).toUpperCase() + text.slice(1))
     .catch((e) => "");
 
@@ -166,25 +168,21 @@ generateCompliment = async () => {
 generateHTML = async (dinos, human) => {
   // generate dino tiles
   const tiles = dinos.map((dino) =>
-    getTileHtml(
-      dino.species,
-      dino.getRandomFact(human),
-      `images/${dino.species.toLowerCase()}.png`
-    )
+    getTileHtml(dino.species, dino.getRandomFact(human), dino.image)
   );
 
-  // add Human tile to the middle
+  // generate human tile
   const compliment = await generateCompliment();
+  const humanTile = getTileHtml(human.name, compliment, `${human.image}`);
 
-  tiles.splice(
-    tiles.length / 2,
-    0,
-    getTileHtml(human.name, compliment, `images/${human.image}`)
-  );
+  // add Human tile in the middle of the dinosaurs tile
+  tiles.splice(tiles.length / 2, 0, humanTile);
+
+  // return a HTML string containing all tiles combined
   return tiles.join("");
 };
-// Add tiles to DOM
 
+// Add tiles to DOM
 addTilesToDOM = async (dinos, human) => {
   document.getElementById("grid").innerHTML = await generateHTML(dinos, human);
 };
@@ -194,7 +192,7 @@ hideForm = () =>
   (document.getElementById("dino-compare").style.display = "none");
 
 // On button click, prepare and display infographic
-document.getElementById("btn").addEventListener("click", function () {
+document.getElementById("btn").addEventListener("click", () => {
   const human = getHumanData();
   addTilesToDOM(dinos, human);
   hideForm();
