@@ -103,6 +103,11 @@ Dino.prototype.compareHeight = function (humanHeight) {
 
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
+Dino.prototype.compareDiet = function (humanDiet) {
+  return `The ${this.name} was a ${this.diet}${
+    this.diet === humanDiet ? " too" : ""
+  }.`;
+};
 
 // Generate Tiles for each Dino in Array
 
