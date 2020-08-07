@@ -5,8 +5,28 @@ const getDinoData = async () =>
     .then((data) => data.Dinos)
     .catch((err) => alert("Dino data could not be loaded."));
 
-function Dino(species, weight, height, diet, where, when, fact, image) {
+// class Animal {
+//   constructor(species, weight, height, diet, where, when, fact, image) {
+//     this.species = species;
+//     this.weight = weight;
+//     this.height = height;
+//     this.diet = diet;
+//     this.where = where;
+//     this.when = when;
+//     this.fact = fact;
+//     this.image = image;
+//   }
+// }
+
+// class Human extends Animal {
+//   constructor(name, weight, height, diet, fact, image) {
+//     super("Human", weight, height, diet, "World Wide", "Holocene", fact, image);
+//   }
+// }
+
+function Animal(species, weight, height, diet, where, when, fact, image) {
   this.species = species;
+  this.name = species;
   this.weight = weight;
   this.height = height;
   this.diet = diet;
@@ -16,6 +36,117 @@ function Dino(species, weight, height, diet, where, when, fact, image) {
   this.image = image;
 }
 
+Animal.prototype.getFact = function () {
+  return this.fact;
+};
+
+Animal.prototype.compareWeight = function (compareTo) {
+  const ratio = (this.weight / compareTo.weight).toFixed(2);
+  const comparisonName = compareTo.name
+    ? compareTo.name
+    : "a " + compareTo.species;
+
+  if (Math.round(ratio) === 1) {
+    return `The ${this.species} was about as heavy as ${comparisonName}.`;
+  } else if (ratio > 1) {
+    return `The ${this.species} was about ${Math.round(
+      ratio
+    )} times as heavy as ${comparisonName}.`;
+  } else {
+    return `The ${this.species} was only ${Math.max(
+      ratio * 100,
+      1
+    )}% as heavy as ${comparisonName}.`;
+  }
+};
+
+// NOTE: Weight in JSON file is in lbs, height in inches.
+Animal.prototype.compareHeight = function (compareTo) {
+  const ratio = (this.height / compareTo.height).toFixed(2);
+  const comparisonName = compareTo.name
+    ? compareTo.name
+    : "a " + compareTo.species;
+
+  if (Math.round(ratio) === 1) {
+    return `The ${this.species} was about the same weight as ${comparisonName}.`;
+  } else if (ratio > 1) {
+    return `The ${this.species} was about ${Math.round(
+      ratio
+    )} times as tall as ${comparisonName}.`;
+  } else {
+    return `The ${this.species} was only ${Math.max(
+      ratio * 100,
+      1
+    )}% as tall as ${comparisonName}.`;
+  }
+};
+
+// NOTE: Weight in JSON file is in lbs, height in inches.
+Animal.prototype.compareDiet = function (comparisonAnimal) {
+  return `The ${this.species} was a ${this.diet}${
+    this.diet.toLowerCase() === comparisonAnimal.diet.toLowerCase()
+      ? " too"
+      : ""
+  }.`;
+};
+
+Animal.prototype.getRandomFact = function (comparisonAnimal) {
+  if (!comparisonAnimal) {
+    return this.getFact();
+  }
+
+  //   if (this.species.toLowerCase() === "pigeon") {
+  //     return this.getFact();
+  //   }
+
+  const getRandomNumber = (bound) => Math.floor(Math.random() * bound);
+
+  const factFunctions = [
+    this.getFact,
+    this.compareWeight,
+    this.compareHeight,
+    this.compareDiet,
+  ];
+
+  return factFunctions[getRandomNumber(factFunctions.length)].call(
+    this,
+    comparisonAnimal
+  );
+};
+
+function Human(name, weight, height, diet, fact, image) {
+  const SPECIES = "Human";
+  const LOCATION_WORLD_WIDE = "World Wide";
+  const TIME_HOLOCENE = "Holocene";
+
+  Animal.call(
+    this,
+    SPECIES,
+    weight,
+    height,
+    diet,
+    LOCATION_WORLD_WIDE,
+    TIME_HOLOCENE,
+    fact,
+    image
+  );
+}
+this.name = name;
+Human.prototype.getRandomFact = () => this.getFact();
+Human.prototype.setFact = (fact) => (this.fact = fact);
+Human.prototype.constructor = Human;
+
+function Dino(species, weight, height, diet, where, when, fact, image) {
+  Animal.call(this, species, weight, height, diet, where, when, fact, image);
+  Dino.prototype.constructor = Dino;
+}
+
+function Bird(species, weight, height, diet, where, when, fact, image) {
+  Dino.call(this, species, weight, height, diet, where, when, fact, image);
+  Bird.prototype.getRandomFact = () => fact;
+  Bird.prototype.constructor = Bird;
+}
+
 // Get Dino data
 
 // Create Dino Objects
@@ -23,16 +154,27 @@ const dinos = [];
 getDinoData().then((dinoData) => {
   for (const entry of dinoData) {
     dinos.push(
-      new Dino(
-        entry.species,
-        entry.weight,
-        entry.height,
-        entry.diet,
-        entry.where,
-        entry.when,
-        entry.fact,
-        `images/${entry.species.toLowerCase()}.png`
-      )
+      entry.species.toLowerCase() === "pigeon"
+        ? new Bird(
+            entry.species,
+            entry.weight,
+            entry.height,
+            entry.diet,
+            entry.where,
+            entry.when,
+            entry.fact,
+            `images/${entry.species.toLowerCase()}.png`
+          )
+        : new Dino(
+            entry.species,
+            entry.weight,
+            entry.height,
+            entry.diet,
+            entry.where,
+            entry.when,
+            entry.fact,
+            `images/${entry.species.toLowerCase()}.png`
+          )
     );
   }
 });
@@ -42,15 +184,15 @@ console.log(dinos);
 // Create Human Object
 
 // Use IIFE to get human data from form
-
-function getHumanData() {
+function getHumanData(fact) {
   const human = (function () {
+    const HUMAN_IMAGE = "images/human.png";
+
     let name = document.getElementById("name").value;
     let feet = document.getElementById("feet").value;
     let inches = document.getElementById("inches").value;
     let weight = document.getElementById("weight").value;
     let diet = document.getElementById("diet").value;
-    const HUMAN_IMAGE = "images/human.png";
 
     function getName() {
       return name;
@@ -72,18 +214,22 @@ function getHumanData() {
       return diet;
     }
 
+    function getFact() {
+      return fact;
+    }
+
     function getImage() {
       return HUMAN_IMAGE;
     }
 
-    return {
-      species: "Human",
-      name: getName(),
-      height: getHeight(),
-      weight: getWeight(),
-      diet: getDiet(),
-      image: getImage(),
-    };
+    return new Human(
+      getName(),
+      getWeight(),
+      getHeight(),
+      getDiet(),
+      getFact(),
+      getImage()
+    );
   })();
   return human;
 }
@@ -210,8 +356,9 @@ hideForm = () =>
   (document.getElementById("dino-compare").style.display = "none");
 
 // On button click, prepare and display infographic
-document.getElementById("btn").addEventListener("click", () => {
-  const human = getHumanData();
+document.getElementById("btn").addEventListener("click", async () => {
+  const compliment = await generateCompliment();
+  const human = getHumanData(compliment);
   addTilesToDOM(dinos, human);
   hideForm();
 });
