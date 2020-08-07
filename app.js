@@ -1,6 +1,6 @@
 // Create Dino Constructor
 const getDinoData = async () =>
-  await fetch("./dino.json")
+  await fetch("dino.json")
     .then((res) => res.json())
     .then((data) => data.Dinos)
     .catch((err) => alert("Dino data could not be loaded."));
@@ -17,9 +17,27 @@ function Dino(species, weight, height, diet, where, when, fact, image) {
 }
 
 // Get Dino data
-getDinoData().then((dinoData) => console.log(dinoData));
 
 // Create Dino Objects
+const dinos = [];
+getDinoData().then((dinoData) => {
+  for (const entry of dinoData) {
+    dinos.push(
+      new Dino(
+        entry.species,
+        entry.weight,
+        entry.height,
+        entry.diet,
+        entry.where,
+        entry.when,
+        entry.fact,
+        ""
+      )
+    );
+  }
+});
+
+console.log(dinos);
 
 // Create Human Object
 
