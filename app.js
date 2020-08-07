@@ -95,12 +95,9 @@ Animal.prototype.getRandomFact = function (comparisonAnimal) {
     return this.getFact();
   }
 
-  //   if (this.species.toLowerCase() === "pigeon") {
-  //     return this.getFact();
-  //   }
-
   const getRandomNumber = (bound) => Math.floor(Math.random() * bound);
 
+  // array with all possible fact returning functions
   const factFunctions = [
     this.getFact,
     this.compareWeight,
@@ -108,10 +105,9 @@ Animal.prototype.getRandomFact = function (comparisonAnimal) {
     this.compareDiet,
   ];
 
-  return factFunctions[getRandomNumber(factFunctions.length)].call(
-    this,
-    comparisonAnimal
-  );
+  // call a random fact returning function
+  const randomIndex = getRandomNumber(factFunctions.length);
+  return factFunctions[randomIndex].call(this, comparisonAnimal);
 };
 
 function Human(name, weight, height, diet, fact, image) {
@@ -130,22 +126,30 @@ function Human(name, weight, height, diet, fact, image) {
     fact,
     image
   );
+  this.name = name;
 }
-this.name = name;
-Human.prototype.getRandomFact = () => this.getFact();
-Human.prototype.setFact = (fact) => (this.fact = fact);
+Human.prototype = Object.assign(Object.create(Animal.prototype), {
+  getRandomFact: function () {
+    return this.getFact();
+  },
+});
 Human.prototype.constructor = Human;
 
-function Dino(species, weight, height, diet, where, when, fact, image) {
+function Dino({ species, weight, height, diet, where, when, fact, image }) {
   Animal.call(this, species, weight, height, diet, where, when, fact, image);
-  Dino.prototype.constructor = Dino;
 }
+Dino.prototype = Object.assign(Object.create(Animal.prototype));
+Dino.prototype.constructor = Dino;
 
-function Bird(species, weight, height, diet, where, when, fact, image) {
-  Dino.call(this, species, weight, height, diet, where, when, fact, image);
-  Bird.prototype.getRandomFact = () => fact;
-  Bird.prototype.constructor = Bird;
+function Bird(properties) {
+  Dino.call(this, properties);
 }
+Bird.prototype = Object.assign(Object.create(Dino.prototype), {
+  getRandomFact: function () {
+    return this.getFact();
+  },
+});
+Bird.prototype.constructor = Bird;
 
 // Get Dino data
 
@@ -153,28 +157,12 @@ function Bird(species, weight, height, diet, where, when, fact, image) {
 const dinos = [];
 getDinoData().then((dinoData) => {
   for (const entry of dinoData) {
+    entry.image = `images/${entry.species.toLowerCase()}.png`;
+
     dinos.push(
       entry.species.toLowerCase() === "pigeon"
-        ? new Bird(
-            entry.species,
-            entry.weight,
-            entry.height,
-            entry.diet,
-            entry.where,
-            entry.when,
-            entry.fact,
-            `images/${entry.species.toLowerCase()}.png`
-          )
-        : new Dino(
-            entry.species,
-            entry.weight,
-            entry.height,
-            entry.diet,
-            entry.where,
-            entry.when,
-            entry.fact,
-            `images/${entry.species.toLowerCase()}.png`
-          )
+        ? new Bird(entry)
+        : new Dino(entry)
     );
   }
 });
@@ -236,76 +224,75 @@ function getHumanData(fact) {
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
-Dino.prototype.compareWeight = function (humanToCompare) {
-  const ratio = (this.weight / humanToCompare.weight).toFixed(2);
-  if (Math.round(ratio) === 1) {
-    return `The ${this.species} was about as heavy as you.`;
-  } else if (ratio > 1) {
-    return `The ${this.species} was about ${Math.round(
-      ratio
-    )} times as heavy as you.`;
-  } else {
-    return `The ${this.species} was only ${Math.max(
-      ratio * 100,
-      1
-    )}% as heavy as you.`;
-  }
-};
+// Dino.prototype.compareWeight = function (humanToCompare) {
+//   const ratio = (this.weight / humanToCompare.weight).toFixed(2);
+//   if (Math.round(ratio) === 1) {
+//     return `The ${this.species} was about as heavy as you.`;
+//   } else if (ratio > 1) {
+//     return `The ${this.species} was about ${Math.round(
+//       ratio
+//     )} times as heavy as you.`;
+//   } else {
+//     return `The ${this.species} was only ${Math.max(
+//       ratio * 100,
+//       1
+//     )}% as heavy as you.`;
+//   }
+// };
 
-// Create Dino Compare Method 2
-// NOTE: Weight in JSON file is in lbs, height in inches.
-Dino.prototype.compareHeight = function (humanToCompare) {
-  const ratio = (this.height / humanToCompare.height).toFixed(2);
-  if (Math.round(ratio) === 1) {
-    return `The ${this.species} was about the same weight as you.`;
-  } else if (ratio > 1) {
-    return `The ${this.species} was about ${Math.round(
-      ratio
-    )} times as tall as you.`;
-  } else {
-    return `The ${this.species} was only ${Math.max(
-      ratio * 100,
-      1
-    )}% as tall as you.`;
-  }
-};
+// // Create Dino Compare Method 2
+// // NOTE: Weight in JSON file is in lbs, height in inches.
+// Dino.prototype.compareHeight = function (humanToCompare) {
+//   const ratio = (this.height / humanToCompare.height).toFixed(2);
+//   if (Math.round(ratio) === 1) {
+//     return `The ${this.species} was about the same weight as you.`;
+//   } else if (ratio > 1) {
+//     return `The ${this.species} was about ${Math.round(
+//       ratio
+//     )} times as tall as you.`;
+//   } else {
+//     return `The ${this.species} was only ${Math.max(
+//       ratio * 100,
+//       1
+//     )}% as tall as you.`;
+//   }
+// };
 
-// Create Dino Compare Method 3
-// NOTE: Weight in JSON file is in lbs, height in inches.
-Dino.prototype.compareDiet = function (humanToCompare) {
-  return `The ${this.species} was a ${this.diet}${
-    this.diet.toLowerCase() === humanToCompare.diet.toLowerCase() ? " too" : ""
-  }.`;
-};
+// // Create Dino Compare Method 3
+// // NOTE: Weight in JSON file is in lbs, height in inches.
+// Dino.prototype.compareDiet = function (humanToCompare) {
+//   return `The ${this.species} was a ${this.diet}${
+//     this.diet.toLowerCase() === humanToCompare.diet.toLowerCase() ? " too" : ""
+//   }.`;
+// };
 
 // Random Dino fact method
-Dino.prototype.getRandomFact = function (humanToCompare) {
-  if (!humanToCompare) {
-    return this.fact;
-  }
+// Dino.prototype.getRandomFact = function (humanToCompare) {
+//   if (!humanToCompare) {
+//     return this.fact;
+//   }
 
-  if (this.species.toLowerCase() === "pigeon") {
-    return this.fact;
-  }
+//   if (this.species.toLowerCase() === "pigeon") {
+//     return this.fact;
+//   }
 
-  const getRandomNumber = (bound) => Math.floor(Math.random() * bound);
+//   const getRandomNumber = (bound) => Math.floor(Math.random() * bound);
 
-  const getFact = () => this.fact;
+//   const getFact = () => this.fact;
 
-  const factFunctions = [
-    () => this.fact,
-    this.compareWeight,
-    this.compareHeight,
-    this.compareDiet,
-  ];
+//   const factFunctions = [
+//     () => this.fact,
+//     this.compareWeight,
+//     this.compareHeight,
+//     this.compareDiet,
+//   ];
 
-  return factFunctions[getRandomNumber(factFunctions.length)].call(
-    this,
-    humanToCompare
-  );
-};
+//   return factFunctions[getRandomNumber(factFunctions.length)].call(
+//     this,
+//     humanToCompare
+//   );
+// };
 
-// Generate Tiles for each Dino in Array
 getTileHtml = (titleText, subText, image) => `
 <div class="grid-item">
     <h3>${titleText}</h3>
