@@ -92,18 +92,36 @@ function getHumanData() {
 // NOTE: Weight in JSON file is in lbs, height in inches.
 Dino.prototype.compareWeight = function (humanToCompare) {
   const ratio = (this.weight / humanToCompare.weight).toFixed(2);
-  return ratio < 1
-    ? `The ${this.species} was only ${ratio * 100}% as heavy as you.`
-    : `The ${this.species} was ${Math.floor(ratio)} times as heavy as you.`;
+  if (Math.round(ratio) === 1) {
+    return `The ${this.species} was about as heavy as you.`;
+  } else if (ratio > 1) {
+    return `The ${this.species} was about ${Math.round(
+      ratio
+    )} times as heavy as you.`;
+  } else {
+    return `The ${this.species} was only ${Math.max(
+      ratio * 100,
+      1
+    )}% as heavy as you.`;
+  }
 };
 
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
 Dino.prototype.compareHeight = function (humanToCompare) {
   const ratio = (this.height / humanToCompare.height).toFixed(2);
-  return ratio < 1
-    ? `The ${this.species} was only ${ratio * 100}% as tall as you.`
-    : `The ${this.species} was ${Math.floor(ratio)} times as tall as you.`;
+  if (Math.round(ratio) === 1) {
+    return `The ${this.species} was about the same weight as you.`;
+  } else if (ratio > 1) {
+    return `The ${this.species} was about ${Math.round(
+      ratio
+    )} times as tall as you.`;
+  } else {
+    return `The ${this.species} was only ${Math.max(
+      ratio * 100,
+      1
+    )}% as tall as you.`;
+  }
 };
 
 // Create Dino Compare Method 3
