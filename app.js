@@ -1,4 +1,10 @@
 // Create Dino Constructor
+const getDinoData = async () =>
+  await fetch("./dino.json")
+    .then((res) => res.json())
+    .then((data) => data.Dinos)
+    .catch((err) => alert("Dino data could not be loaded."));
+
 function Dino(species, weight, height, diet, where, when, fact, image) {
   this.species = species;
   this.weight = weight;
@@ -9,6 +15,9 @@ function Dino(species, weight, height, diet, where, when, fact, image) {
   this.fact = fact;
   this.image = image;
 }
+
+// Get Dino data
+getDinoData().then((dinoData) => console.log(dinoData));
 
 // Create Dino Objects
 
