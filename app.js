@@ -39,5 +39,7 @@ getDinoData().then((dinoData) => console.log(dinoData));
 // Add tiles to DOM
 
 // Remove form from screen
+hideForm = () =>
+  (document.getElementById("dino-compare").style.display = "none");
 
 // On button click, prepare and display infographic
