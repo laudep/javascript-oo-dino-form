@@ -89,6 +89,10 @@ function getHumanData() {
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
+Dino.prototype.compareWeight = function (humanWeight) {
+  const ratio = Math.floor(this.weight / humanWeight);
+  return `The ${this.name} was ${ratio} times as heavy as you.`;
+};
 
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
