@@ -43,6 +43,50 @@ console.log(dinos);
 
 // Use IIFE to get human data from form
 
+function getHumanData() {
+  const human = (function () {
+    let name = document.getElementById("name").value;
+    let feet = document.getElementById("feet").value;
+    let inches = document.getElementById("inches").value;
+    let weight = document.getElementById("weight").value;
+    let diet = document.getElementById("diet").value;
+    const HUMAN_IMAGE = "human.png";
+
+    function getName() {
+      return name;
+    }
+
+    function getTotalHeightInInches() {
+      return parseFloat(feet * 12) + parseFloat(inches);
+    }
+
+    function getHeight() {
+      return getTotalHeightInInches();
+    }
+
+    function getWeight() {
+      return parseFloat(weight);
+    }
+
+    function getDiet() {
+      return diet;
+    }
+
+    function getImage() {
+      return HUMAN_IMAGE;
+    }
+
+    return {
+      name: getName(),
+      height: getHeight(),
+      weight: getWeight(),
+      diet: getDiet(),
+      image: getImage(),
+    };
+  })();
+  return human;
+}
+
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 
