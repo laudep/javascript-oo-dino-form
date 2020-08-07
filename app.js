@@ -40,6 +40,7 @@ getDinoData().then((dinoData) => {
 console.log(dinos);
 
 // Create Human Object
+const human = getHumanData();
 
 // Use IIFE to get human data from form
 
