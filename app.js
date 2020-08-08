@@ -1,3 +1,13 @@
+const Utils = {
+  // in place schuffling
+  shuffleArray: (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  },
+};
+
 // Create Dino Constructor
 const getDinoData = async () =>
   await fetch("dino.json")
@@ -176,48 +186,62 @@ function getHumanData(fact) {
   const human = (function () {
     const HUMAN_IMAGE = "images/human.png";
 
-    let name = document.getElementById("name").value;
+    // let name = document.getElementById("name").value;
     let feet = document.getElementById("feet").value;
     let inches = document.getElementById("inches").value;
-    let weight = document.getElementById("weight").value;
-    let diet = document.getElementById("diet").value;
+    // let weight = document.getElementById("weight").value;
+    // let diet = document.getElementById("diet").value;
 
-    function getName() {
-      return name;
-    }
+    // function getName() {
+    //   return name;
+    // }
 
     function calculateHeightInInches() {
       return parseFloat(feet * 12) + parseFloat(inches);
     }
 
-    function getHeight() {
-      return calculateHeightInInches();
-    }
+    // function getHeight() {
+    //   return calculateHeightInInches();
+    // }
 
-    function getWeight() {
-      return parseFloat(weight);
-    }
+    // function getWeight() {
+    //   return parseFloat(weight);
+    // }
 
-    function getDiet() {
-      return diet;
-    }
+    // function getDiet() {
+    //   return diet;
+    // }
 
-    function getFact() {
-      return fact;
-    }
+    // function getFact() {
+    //   return fact;
+    // }
 
-    function getImage() {
-      return HUMAN_IMAGE;
-    }
+    // function getImage() {
+    //   return HUMAN_IMAGE;
+    // }
+
+    // let name = ;
+    // let feet = document.getElementById("feet").value;
+    // let inches = document.getElementById("inches").value;
+    // let weight = ;
+    // let diet = document.getElementById("diet").value;
 
     return new Human(
-      getName(),
-      getWeight(),
-      getHeight(),
-      getDiet(),
-      getFact(),
-      getImage()
+      document.getElementById("name").value,
+      document.getElementById("weight").value,
+      calculateHeightInInches(feet, inches),
+      document.getElementById("diet").value,
+      fact,
+      HUMAN_IMAGE
     );
+    // return new Human(
+    //   getName(),
+    //   getWeight(),
+    //   getHeight(),
+    //   getDiet(),
+    //   getFact(),
+    //   getImage()
+    // );
   })();
   return human;
 }
@@ -301,9 +325,6 @@ getTileHtml = (titleText, subText, image) => `
 </div>
 `;
 
-// Add tiles to DOM
-
-// Generate Tiles for each Dino in Array
 generateCompliment = async () => {
   let compliment = await fetch("https://complimentr.com/api")
     .then((response) => response.json())
@@ -316,11 +337,16 @@ generateCompliment = async () => {
   return compliment;
 };
 
+// Add tiles to DOM
+
+// Generate Tiles for each Dino in Array
 generateHTML = async (dinos, human) => {
   // generate dino tiles
   const tiles = dinos.map((dino) =>
     getTileHtml(dino.species, dino.getRandomFact(human), dino.image)
   );
+
+  Utils.shuffleArray(tiles);
 
   // generate human tile
   const compliment = await generateCompliment();
