@@ -111,7 +111,8 @@ p {
 .grid-item img:hover {
   transition: 0.3s;
   z-index: 100;
-  transform: scale(1.125);
+  transform: scale(1.10);
+  cursor: pointer;
 }
 
 .grid-item p {
