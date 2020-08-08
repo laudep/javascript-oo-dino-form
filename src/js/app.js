@@ -35,7 +35,7 @@ getDinoData().then((dinoData) => {
  * @param {string} fact a fact concerning the human person
  * @returns {Human} new Human object
  */
-function getHumanData(fact) {
+const getHumanData = (fact) => {
   const human = (function () {
     const HUMAN_IMAGE = "./images/human.png";
     const HUMAN_SOUND = "./sounds/human.wav";
@@ -54,43 +54,29 @@ function getHumanData(fact) {
     );
   })();
   return human;
-}
+};
 
 /**
  * Generate the HTML string for a tile
  * @param {string} titleText the tile's title text
  * @param {string} subText the tile's subtext
  * @param {string} image path of image to be displayed in tile
+ * @param {string} sound path of sound to be played on click
  * @returns {string} HTML string for the tile
  */
 const getTileHtml = (titleText, subText, image, sound) =>
-  //  {
-  //   const tile = document.createElement("div");
-
-  //   const title = document.createElement("h3");
-  //   title.append(document.createTextNode(titleText));
-  //   tile.append(title);
-
-  //   const img = document.createElement("img");
-  //   img.setAttribute("src", image);
-  //   img.setAttribute("onclick", onClick);
-  //   tile.append(img);
-
-  //   const subTitle = document.createElement("p");
-  //   subTitle.append(document.createTextNode(subText));
-  //   tile.append(subTitle);
-
-  //   return tile.outerHTML;
-  // };
-  {
-    return `
-<div class="grid-item">
+  `<div class="grid-item">
     <h3>${titleText}</h3>
-    <img src="${image}" onclick="new Audio('${sound}').play();"/>
+    <img src="${image}" 
+      onclick="(function () {
+        const audio = document.getElementById('sound-effect');
+        audio.pause();
+        audio.currentTime = 0;
+        audio.src = '${sound}';
+        audio.play();
+    }());"/>
     <p>${subText}</p>
-</div>
-`;
-  };
+</div>`;
 
 /**
  * Generate the HTML for the comparison page
@@ -128,7 +114,9 @@ const generateHTML = async (dinos, human) => {
  * @param {Human} human the current Human object
  */
 const addTilesToDOM = async (dinos, human) => {
-  document.getElementById("grid").innerHTML = await generateHTML(dinos, human);
+  const grid = document.getElementById("grid");
+
+  grid.innerHTML += await generateHTML(dinos, human);
 };
 
 /**
