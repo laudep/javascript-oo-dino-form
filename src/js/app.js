@@ -38,6 +38,7 @@ getDinoData().then((dinoData) => {
 function getHumanData(fact) {
   const human = (function () {
     const HUMAN_IMAGE = "./images/human.png";
+    const HUMAN_SOUND = "./sounds/human.wav";
 
     let feet = document.getElementById("feet").value;
     let inches = document.getElementById("inches").value;
@@ -48,7 +49,8 @@ function getHumanData(fact) {
       Utils.feetAndInchesToInches(feet, inches),
       document.getElementById("diet").value,
       fact,
-      HUMAN_IMAGE
+      HUMAN_IMAGE,
+      HUMAN_SOUND
     );
   })();
   return human;
@@ -109,7 +111,7 @@ const generateHTML = async (dinos, human) => {
   const humanTile = getTileHtml(
     human.name,
     compliment,
-    `${human.image}`,
+    human.image,
     human.sound
   );
 

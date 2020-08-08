@@ -101,7 +101,7 @@ Animal.prototype.talk = function talk() {
   new Audio(this.sound).play();
 };
 
-function Human(name, weight, height, diet, fact, image) {
+function Human(name, weight, height, diet, fact, image, sound = "") {
   const SPECIES = "Human";
   const LOCATION_WORLD_WIDE = "World Wide";
   const TIME_HOLOCENE = "Holocene";
@@ -115,7 +115,8 @@ function Human(name, weight, height, diet, fact, image) {
     LOCATION_WORLD_WIDE,
     TIME_HOLOCENE,
     fact,
-    image
+    image,
+    sound
   );
   this.name = name;
 }
