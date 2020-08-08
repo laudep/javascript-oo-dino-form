@@ -5,30 +5,35 @@ const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
 
+// Try the environment variable, otherwise use root
+const ASSET_PATH = process.env.ASSET_PATH || "/";
+
 module.exports = {
   mode: "development",
-  entry: "./src/app.js",
+  entry: "./src/js/app.js",
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
   },
   devServer: {
-    contentBase: "./dist",
+    contentBase: path.resolve(__dirname, "dist"),
+    // writeToDisk: true,
   },
-  //   module: {
-  //     rules: [
-  //       {
-  //         test: /\.js$/,
-  //         exclude: /(node_modules)/,
-  //         use: {
-  //           loader: "babel-loader",
-  //           options: {
-  //             presets: ["@babel/preset-env"],
-  //           },
-  //         },
-  //       },
-  //     ],
-  //   },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: "babel-loader",
+          query: {
+            presets: ["@babel/preset-env"],
+          },
+        },
+      },
+    ],
+  },
+  devtool: "source-map",
   plugins: [
     new CleanWebpackPlugin(),
     new CopyPlugin({
@@ -37,8 +42,7 @@ module.exports = {
           from: "src",
           globOptions: {
             dot: true,
-            // gitignore: true,
-            ignore: ["**/*.js"],
+            ignore: ["**/*.js", "/js", "**/*.html"],
           },
         },
       ],
