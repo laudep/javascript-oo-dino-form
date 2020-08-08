@@ -1,6 +1,16 @@
 import Utils from "./Utils";
 
-function Animal(species, weight, height, diet, where, when, fact, image) {
+function Animal(
+  species,
+  weight,
+  height,
+  diet,
+  where,
+  when,
+  fact,
+  image,
+  sound
+) {
   this.species = species;
   this.name = species;
   this.weight = weight;
@@ -10,6 +20,7 @@ function Animal(species, weight, height, diet, where, when, fact, image) {
   this.when = when;
   this.fact = fact;
   this.image = image;
+  this.sound = sound;
 }
 
 Animal.prototype.getFact = function () {
@@ -82,6 +93,14 @@ Animal.prototype.getRandomFact = function (comparisonAnimal) {
   return factFunctions[randomIndex].call(this, comparisonAnimal);
 };
 
+Animal.prototype.talk = function talk() {
+  if (!(this && this.sound)) {
+    return;
+  }
+
+  new Audio(this.sound).play();
+};
+
 function Human(name, weight, height, diet, fact, image) {
   const SPECIES = "Human";
   const LOCATION_WORLD_WIDE = "World Wide";
@@ -107,8 +126,29 @@ Human.prototype = Object.assign(Object.create(Animal.prototype), {
 });
 Human.prototype.constructor = Human;
 
-function Dino({ species, weight, height, diet, where, when, fact, image }) {
-  Animal.call(this, species, weight, height, diet, where, when, fact, image);
+function Dino({
+  species,
+  weight,
+  height,
+  diet,
+  where,
+  when,
+  fact,
+  image,
+  sound,
+}) {
+  Animal.call(
+    this,
+    species,
+    weight,
+    height,
+    diet,
+    where,
+    when,
+    fact,
+    image,
+    sound
+  );
 }
 Dino.prototype = Object.assign(Object.create(Animal.prototype));
 Dino.prototype.constructor = Dino;

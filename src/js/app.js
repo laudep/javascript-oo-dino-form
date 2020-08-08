@@ -19,6 +19,7 @@ const dinos = [];
 getDinoData().then((dinoData) => {
   for (const entry of dinoData) {
     entry.image = `./images/${entry.species.toLowerCase()}.png`;
+    entry.sound = `./sounds/${entry.species.toLowerCase()}.wav`;
 
     dinos.push(
       entry.species.toLowerCase() === "pigeon"
@@ -60,13 +61,34 @@ function getHumanData(fact) {
  * @param {string} image path of image to be displayed in tile
  * @returns {string} HTML string for the tile
  */
-const getTileHtml = (titleText, subText, image) => `
+const getTileHtml = (titleText, subText, image, sound) =>
+  //  {
+  //   const tile = document.createElement("div");
+
+  //   const title = document.createElement("h3");
+  //   title.append(document.createTextNode(titleText));
+  //   tile.append(title);
+
+  //   const img = document.createElement("img");
+  //   img.setAttribute("src", image);
+  //   img.setAttribute("onclick", onClick);
+  //   tile.append(img);
+
+  //   const subTitle = document.createElement("p");
+  //   subTitle.append(document.createTextNode(subText));
+  //   tile.append(subTitle);
+
+  //   return tile.outerHTML;
+  // };
+  {
+    return `
 <div class="grid-item">
     <h3>${titleText}</h3>
-    <img src="${image}" />
+    <img src="${image}" onclick="new Audio('${sound}').play();"/>
     <p>${subText}</p>
 </div>
 `;
+  };
 
 /**
  * Generate the HTML for the comparison page
@@ -77,14 +99,19 @@ const getTileHtml = (titleText, subText, image) => `
 const generateHTML = async (dinos, human) => {
   // generate dino tiles
   const tiles = dinos.map((dino) =>
-    getTileHtml(dino.species, dino.getRandomFact(human), dino.image)
+    getTileHtml(dino.species, dino.getRandomFact(human), dino.image, dino.sound)
   );
 
   Utils.shuffleArray(tiles);
 
   // generate human tile
   const compliment = await Utils.generateCompliment();
-  const humanTile = getTileHtml(human.name, compliment, `${human.image}`);
+  const humanTile = getTileHtml(
+    human.name,
+    compliment,
+    `${human.image}`,
+    human.sound
+  );
 
   // add Human tile in the middle of the dinosaurs tile
   tiles.splice(tiles.length / 2, 0, humanTile);
