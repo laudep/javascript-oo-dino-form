@@ -1,5 +1,8 @@
-import Utils from "./Utils";
+import Utils from "./utils";
 
+/**
+ * @class for Animals
+ */
 function Animal(
   species,
   weight,
@@ -23,10 +26,19 @@ function Animal(
   this.sound = sound;
 }
 
+/**
+ * Getter for the fact property
+ * @returns {string} the animal's main fact
+ */
 Animal.prototype.getFact = function () {
   return this.fact;
 };
 
+/**
+ * Weight comparison method
+ * @param {Animal} compareTo animal to which to compare weight
+ * @returns {string} comparison result in a sentence
+ */
 Animal.prototype.compareWeight = function (compareTo) {
   const ratio = (this.weight / compareTo.weight).toFixed(2);
   const comparisonName = compareTo.name
@@ -46,7 +58,11 @@ Animal.prototype.compareWeight = function (compareTo) {
   }
 };
 
-// NOTE: Weight in JSON file is in lbs, height in inches.
+/**
+ * Height comparison method
+ * @param {Animal} compareTo animal to which to compare height
+ * @returns {string} comparison result in a sentence
+ */
 Animal.prototype.compareHeight = function (compareTo) {
   const ratio = (this.height / compareTo.height).toFixed(2);
   const comparisonName = compareTo.name
@@ -66,15 +82,23 @@ Animal.prototype.compareHeight = function (compareTo) {
   }
 };
 
-// NOTE: Weight in JSON file is in lbs, height in inches.
-Animal.prototype.compareDiet = function (comparisonAnimal) {
+/**
+ * Diet comparison method
+ * @param {Animal} compareTo animal to which to compare diet
+ * @returns {string} comparison result in a sentence
+ */
+Animal.prototype.compareDiet = function (compareTo) {
   return `The ${this.species} was a ${this.diet}${
-    this.diet.toLowerCase() === comparisonAnimal.diet.toLowerCase()
-      ? " too"
-      : ""
+    this.diet.toLowerCase() === compareTo.diet.toLowerCase() ? " too" : ""
   }.`;
 };
 
+/**
+ * Returns a random fact about the animal,
+ * possibly using a comparison to another animal
+ * @param {Animal} [comparisonAnimal] animal to which to compare
+ * @returns {string} a random fact about the animal
+ */
 Animal.prototype.getRandomFact = function (comparisonAnimal) {
   if (!comparisonAnimal) {
     return this.getFact();
@@ -93,14 +117,9 @@ Animal.prototype.getRandomFact = function (comparisonAnimal) {
   return factFunctions[randomIndex].call(this, comparisonAnimal);
 };
 
-Animal.prototype.talk = function talk() {
-  if (!(this && this.sound)) {
-    return;
-  }
-
-  new Audio(this.sound).play();
-};
-
+/**
+ * @class for Humans
+ */
 function Human(name, weight, height, diet, fact, image, sound = "") {
   const SPECIES = "Human";
   const LOCATION_WORLD_WIDE = "World Wide";
@@ -121,12 +140,19 @@ function Human(name, weight, height, diet, fact, image, sound = "") {
   this.name = name;
 }
 Human.prototype = Object.assign(Object.create(Animal.prototype), {
+  /**
+   * Returns a fact when available
+   * @returns {string} a fact about the human
+   */
   getRandomFact: function () {
     return this.getFact();
   },
 });
 Human.prototype.constructor = Human;
 
+/**
+ * @class for Dinos
+ */
 function Dino({
   species,
   weight,
@@ -154,10 +180,17 @@ function Dino({
 Dino.prototype = Object.assign(Object.create(Animal.prototype));
 Dino.prototype.constructor = Dino;
 
+/**
+ * @class for Birds
+ */
 function Bird(properties) {
   Dino.call(this, properties);
 }
 Bird.prototype = Object.assign(Object.create(Dino.prototype), {
+  /**
+   * Returns a fact when available
+   * @returns {string} a fact about the bird
+   */
   getRandomFact: function () {
     return this.getFact();
   },
