@@ -14,22 +14,6 @@ const getDinoData = async () =>
     .then((data) => data.Dinos)
     .catch((err) => alert("Dino data could not be loaded."));
 
-const dinos = [];
-// Get Dino data
-getDinoData().then((dinoData) => {
-  for (const entry of dinoData) {
-    entry.image = `./images/${entry.species.toLowerCase()}.png`;
-    entry.sound = `./sounds/${entry.species.toLowerCase()}.wav`;
-
-    dinos.push(
-      entry.species.toLowerCase() === "pigeon"
-        ? // Create Dino Objects
-          new Bird(entry)
-        : new Dino(entry)
-    );
-  }
-});
-
 /**
  * Use IIFE to get human data from form and use it to instantiate a Human object
  * @param {string} fact a fact concerning the human person
@@ -93,6 +77,7 @@ const generateHTML = async (dinos, human) => {
   Utils.shuffleArray(tiles);
 
   // generate human tile
+  // generate compliment to use as a 'fact' for the human tile
   const compliment = await Utils.generateCompliment();
   const humanTile = getTileHtml(
     human.name,
@@ -101,7 +86,7 @@ const generateHTML = async (dinos, human) => {
     human.sound
   );
 
-  // add Human tile in the middle of the dinosaurs tile
+  // add human tile in the middle of the dinosaurs tiles
   tiles.splice(tiles.length / 2, 0, humanTile);
 
   // return a HTML string containing all tiles combined
@@ -125,10 +110,37 @@ const addTilesToDOM = async (dinos, human) => {
 const hideForm = () =>
   (document.getElementById("dino-compare").style.display = "none");
 
-// On button click, prepare and display infographic
-document.getElementById("btn").addEventListener("click", async () => {
+/**
+ * Prepare and display infographic
+ * @param {Event} [event] the submit event
+ */
+const displayInfoGraphic = async (event) => {
+  if (event) {
+    event.preventDefault();
+  }
+
   const compliment = await Utils.generateCompliment();
   const human = getHumanData(compliment);
-  addTilesToDOM(dinos, human);
-  hideForm();
-});
+
+  const dinos = [];
+  // Get dino data
+  getDinoData().then((dinoData) => {
+    for (const entry of dinoData) {
+      entry.image = `./images/${entry.species.toLowerCase()}.png`;
+      entry.sound = `./sounds/${entry.species.toLowerCase()}.wav`;
+
+      dinos.push(
+        entry.species.toLowerCase() === "pigeon"
+          ? // Create Dino Objects
+            new Bird(entry)
+          : new Dino(entry)
+      );
+    }
+
+    addTilesToDOM(dinos, human);
+    hideForm();
+  });
+};
+
+// On button click, prepare and display infographic
+document.getElementById("dino-compare").onsubmit = displayInfoGraphic;
