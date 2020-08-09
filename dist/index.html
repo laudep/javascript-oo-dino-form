@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Dinographic</title>
+    <!-- Include Google fonts: Frijole, Open Sans, Oswald -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Frijole|Open+Sans|Oswald&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Normalize browser styles -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      rel="stylesheet"
+    />
+    <link href="app.css" rel="stylesheet" />
+    <!-- Link to bundle with defer till HTML render -->
+  <script defer src="bundle.js"></script></head>
+  <body>
+    <header>
+      <h2>Natural History Museum</h2>
+      <h1>Dinosaurs</h1>
+      <h3>How do you compare?</h3>
+    </header>
+    <!-- Form to get user input -->
+    <iframe name="dummyFrame" style="display: none;"></iframe>
+    <form id="dino-compare" target="dummyFrame">
+      <div class="form-container">
+        <p>Units:</p>
+        <select id="unit-select">
+          <option selected value="imperial">Imperial</option>
+          <option value="metric">Metric</option> </select
+        ><br />
+        <p>Name:</p>
+        <input
+          id="name"
+          class="form-field__full"
+          type="name"
+          name="name"
+          required
+        />
+        <p>Height</p>
+        <label
+          ><span id="label-height-main">Feet: </span>
+          <input
+            id="feet"
+            class="form-field__short"
+            type="number"
+            name="feet"
+            min="1"
+            required
+        /></label>
+        <label
+          ><span id="label-height-sub">inches: </span>
+          <input
+            id="inches"
+            class="form-field__short"
+            type="number"
+            name="inches"
+        /></label>
+        <p>Weight:</p>
+        <label
+          ><input
+            id="weight"
+            class="form-field__short"
+            type="number"
+            name="weight"
+            min="1"
+            required
+          /><span id="label-weight">lbs</span></label
+        >
+        <p>Diet:</p>
+        <select id="diet" class="form-field__full" name="diet">
+          <option>Herbavor</option>
+          <option>Omnivor</option>
+          <option>Carnivor</option>
+        </select>
+        <button id="btn" type="submit">Compare Me!</button>
+      </div>
+    </form>
+    <!-- .grid to attach tiles to -->
+    <audio id="sound-effect" preload="auto" style="display: none;"></audio>
+    <main id="grid"></main>
+    <footer>
+      <!-- Include information source -->
+      <p class="fine-print">
+        Data Sourced from
+        <a href="https://www.wikipedia.org/">Wikipedia.org</a>, all numbers are
+        approximations.
+      </p>
+    </footer>
+  </body>
+</html>
