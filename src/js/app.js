@@ -1,7 +1,7 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-import Utils from "./Utils";
+import Utils from "./utils";
 import { Animal, Human, Dino, Bird } from "./animals";
 
 /**
@@ -24,13 +24,20 @@ const getHumanData = (fact) => {
     const HUMAN_IMAGE = "./images/human.png";
     const HUMAN_SOUND = "./sounds/human.wav";
 
-    let feet = document.getElementById("feet").value;
-    let inches = document.getElementById("inches").value;
+    const weight = document.getElementById("weight").value;
+    const mainLength = document.getElementById("feet").value;
+    const subLength = document.getElementById("inches").value;
+
+    // convert if necessary/metric units are selected
+    const isMetric = isMetricUnitSelected();
+    const height = isMetric
+      ? Utils.centimetersToInches(mainLength * 100 + subLength)
+      : Utils.feetAndInchesToInches(mainLength, subLength);
 
     return new Human(
       document.getElementById("name").value,
-      document.getElementById("weight").value,
-      Utils.feetAndInchesToInches(feet, inches),
+      isMetric ? Utils.kilogramsToPounds(weight) : weight,
+      height,
       document.getElementById("diet").value,
       fact,
       HUMAN_IMAGE,
@@ -142,5 +149,31 @@ const displayInfoGraphic = async (event) => {
   });
 };
 
+/**
+ * Whether metric units are selected
+ * @returns {boolean} whether metric units are selected
+ */
+const isMetricUnitSelected = () =>
+  document.getElementById("unit-select").value === "metric";
+
+/**
+ * Handles unit changes (metric & imperial)
+ */
+const setUnits = (e) => {
+  const isMetric = isMetricUnitSelected();
+
+  document.getElementById("label-height-main").innerText = isMetric
+    ? "Meter: "
+    : "Feet: ";
+
+  document.getElementById("label-height-sub").innerText = isMetric
+    ? "centimeters: "
+    : "inches: ";
+
+  document.getElementById("label-weight").innerText = isMetric ? "kg" : "lbs";
+};
+
 // On button click, prepare and display infographic
 document.getElementById("dino-compare").onsubmit = displayInfoGraphic;
+// Handle unit changes
+document.getElementById("unit-select").onchange = setUnits;

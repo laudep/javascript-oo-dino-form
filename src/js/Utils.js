@@ -32,6 +32,20 @@ const Utils = {
     parseFloat(feet * 12) + parseFloat(inches),
 
   /**
+   * Converts a given weight in kilograms to pounds
+   * @param {number} kg weight in kilograms
+   * @returns {number} converted weight in pounds (lbs)
+   */
+  kilogramsToPounds: (kg) => kg * 2.2046,
+
+  /**
+   * Converts a given length in centimeters to inches
+   * @param {number} cm length in centimeters
+   * @returns {number} converted length in inches
+   */
+  centimetersToInches: (cm) => cm * 0.3937,
+
+  /**
    * Generates a compliment string using the Complimentr API
    *
    * @async
