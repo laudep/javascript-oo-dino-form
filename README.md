@@ -3,6 +3,9 @@
 This project is an exercise in intermediate JavaScript, with a focus on pre-ES6 Object Orientation.  
 It contains a form that allows users to compare themselves to different species of Dinosaurs.  
 
+## Demo
+
+A Github Pages demo can be found [here](https://laudep.github.io/javascript-oo-dino-form/index.html).
 
 ## Getting started
 
