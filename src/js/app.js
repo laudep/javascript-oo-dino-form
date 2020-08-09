@@ -62,6 +62,7 @@ const getTileHtml = (titleText, subText, image, sound) =>
         audio.pause();
         audio.currentTime = 0;
         audio.src = '${sound}';
+        audio.volume = 0.1;
         audio.play();
     }());"/>
     <p>${subText}</p>
