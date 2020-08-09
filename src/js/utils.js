@@ -3,7 +3,7 @@
  */
 const Utils = {
   /**
-   * Randomly shuffle a given array
+   * @description Randomly shuffle a given array
    * @param {array} array the array to shuffle
    */
   shuffleArray: (array) => {
@@ -14,7 +14,7 @@ const Utils = {
   },
 
   /**
-   * Generates a random (integer) number within a given range
+   * @description Generates a random (integer) number within a given range
    * @param {number} max the maximum number (inclusive)
    * @param {number} [min=0] the minimum number (inclusive)
    * @returns {number} the generated random integer
@@ -23,7 +23,7 @@ const Utils = {
     Math.floor(Math.random() * (max - min + 1)) + min,
 
   /**
-   * Converts a given length in feet and inches to a total length in inches
+   * @description  Converts a given length in feet and inches to a total length in inches
    * @param {number} feet length in feet
    * @param {number} inches length in feet
    * @returns {number} the total length in inches
@@ -32,21 +32,21 @@ const Utils = {
     parseFloat(feet * 12) + parseFloat(inches),
 
   /**
-   * Converts a given weight in kilograms to pounds
+   * @description Converts a given weight in kilograms to pounds
    * @param {number} kg weight in kilograms
    * @returns {number} converted weight in pounds (lbs)
    */
   kilogramsToPounds: (kg) => kg * 2.2046,
 
   /**
-   * Converts a given length in centimeters to inches
+   * @description  Converts a given length in centimeters to inches
    * @param {number} cm length in centimeters
    * @returns {number} converted length in inches
    */
   centimetersToInches: (cm) => cm * 0.3937,
 
   /**
-   * Generates a compliment string using the Complimentr API
+   * @description Generates a compliment string using the Complimentr API
    *
    * @async
    * @returns {string} the generated compliment

@@ -3,9 +3,10 @@ import "regenerator-runtime/runtime";
 
 import Utils from "./utils";
 import { Animal, Human, Dino, Bird } from "./animals";
+import { HUMAN_IMAGE, HUMAN_SOUND } from "./constants";
 
 /**
- * Asynchronously loads Dino data
+ * @description Asynchronously loads Dino data
  * @returns {array} dinosaur data
  */
 const getDinoData = async () =>
@@ -15,15 +16,12 @@ const getDinoData = async () =>
     .catch((err) => alert("Dino data could not be loaded."));
 
 /**
- * Use IIFE to get human data from form and use it to instantiate a Human object
+ * @description Use IIFE to get human data from form and use it to instantiate a Human object
  * @param {string} fact a fact concerning the human person
  * @returns {Human} new Human object
  */
 const getHumanData = (fact) => {
   const human = (function () {
-    const HUMAN_IMAGE = "./images/human.png";
-    const HUMAN_SOUND = "./sounds/human.wav";
-
     const weight = document.getElementById("weight").value;
     const mainLength = document.getElementById("feet").value;
     const subLength = document.getElementById("inches").value;
@@ -48,7 +46,7 @@ const getHumanData = (fact) => {
 };
 
 /**
- * Generate the HTML string for a tile
+ * @description Generate the HTML string for a tile
  * @param {string} titleText the tile's title text
  * @param {string} subText the tile's subtext
  * @param {string} image path of image to be displayed in tile
@@ -70,7 +68,7 @@ const getTileHtml = (titleText, subText, image, sound) =>
 </div>`;
 
 /**
- * Generate the HTML for the comparison page
+ * @description Generate the HTML for the comparison page
  * @param {Array.<Dino>} dinos the dino objects
  * @param {Human} human the current Human object
  * @returns {string} HTML string for comparison page
@@ -112,13 +110,13 @@ const addTilesToDOM = async (dinos, human) => {
 };
 
 /**
- * Remove the comparison form from the screen
+ * @description Remove the comparison form from the screen
  */
 const hideForm = () =>
   (document.getElementById("dino-compare").style.display = "none");
 
 /**
- * Prepare and display infographic
+ * @description Prepare and display infographic
  * @param {Event} [event] the submit event
  */
 const displayInfoGraphic = async (event) => {
@@ -150,14 +148,14 @@ const displayInfoGraphic = async (event) => {
 };
 
 /**
- * Whether metric units are selected
+ * @description Whether metric units are selected
  * @returns {boolean} whether metric units are selected
  */
 const isMetricUnitSelected = () =>
   document.getElementById("unit-select").value === "metric";
 
 /**
- * Handles unit changes (metric & imperial)
+ * @description Handles unit changes (metric & imperial)
  */
 const setUnits = (e) => {
   const isMetric = isMetricUnitSelected();

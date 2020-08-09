@@ -35,7 +35,7 @@ Animal.prototype.getFact = function () {
 };
 
 /**
- * Weight comparison method
+ * @description Weight comparison method
  * @param {Animal} compareTo animal to which to compare weight
  * @returns {string} comparison result in a sentence
  */
@@ -59,7 +59,7 @@ Animal.prototype.compareWeight = function (compareTo) {
 };
 
 /**
- * Height comparison method
+ * @description Height comparison method
  * @param {Animal} compareTo animal to which to compare height
  * @returns {string} comparison result in a sentence
  */
@@ -83,7 +83,7 @@ Animal.prototype.compareHeight = function (compareTo) {
 };
 
 /**
- * Diet comparison method
+ * @description Diet comparison method
  * @param {Animal} compareTo animal to which to compare diet
  * @returns {string} comparison result in a sentence
  */
@@ -94,7 +94,7 @@ Animal.prototype.compareDiet = function (compareTo) {
 };
 
 /**
- * Returns a random fact about the animal,
+ * @description Returns a random fact about the animal,
  * possibly using a comparison to another animal
  * @param {Animal} [comparisonAnimal] animal to which to compare
  * @returns {string} a random fact about the animal
@@ -141,7 +141,7 @@ function Human(name, weight, height, diet, fact, image, sound = "") {
 }
 Human.prototype = Object.assign(Object.create(Animal.prototype), {
   /**
-   * Returns a fact when available
+   * @description Returns a fact when available
    * @returns {string} a fact about the human
    */
   getRandomFact: function () {
@@ -188,7 +188,7 @@ function Bird(properties) {
 }
 Bird.prototype = Object.assign(Object.create(Dino.prototype), {
   /**
-   * Returns a fact when available
+   * @description Returns a fact when available
    * @returns {string} a fact about the bird
    */
   getRandomFact: function () {
