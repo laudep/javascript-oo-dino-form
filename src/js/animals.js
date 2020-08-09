@@ -1,4 +1,5 @@
 import Utils from "./utils";
+import { HUMAN_SPECIES, LOCATION_WORLD_WIDE, TIME_HOLOCENE } from "./constants";
 
 /**
  * @class for Animals
@@ -121,13 +122,9 @@ Animal.prototype.getRandomFact = function (comparisonAnimal) {
  * @class for Humans
  */
 function Human(name, weight, height, diet, fact, image, sound = "") {
-  const SPECIES = "Human";
-  const LOCATION_WORLD_WIDE = "World Wide";
-  const TIME_HOLOCENE = "Holocene";
-
   Animal.call(
     this,
-    SPECIES,
+    HUMAN_SPECIES,
     weight,
     height,
     diet,
