@@ -5,7 +5,12 @@ It contains a form that allows users to compare themselves to different species 
 
 ## Demo
 
-A Github Pages demo can be found [here](https://laudep.github.io/javascript-oo-dino-form/index.html).
+A Github Pages demo can be found [here](https://laudep.github.io/javascript-oo-dino-form/index.html).  
+Note: the gh-pages branch can be updated using a chained force push:
+
+```
+git push origin `git subtree split --prefix dist master`:gh-pages --force
+```
 
 ## Getting started
 
