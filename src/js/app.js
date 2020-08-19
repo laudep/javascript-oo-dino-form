@@ -2,7 +2,7 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 
 import Utils from "./utils";
-import { Animal, Human, Dino, Bird } from "./animals";
+import { Human, Dino, Bird } from "./animals";
 import { HUMAN_IMAGE, HUMAN_SOUND } from "./constants";
 
 /**
