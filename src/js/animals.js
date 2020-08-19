@@ -41,7 +41,7 @@ Animal.prototype.getFact = function () {
  * @returns {string} comparison result in a sentence
  */
 Animal.prototype.compareWeight = function (compareTo) {
-  const ratio = (this.weight / compareTo.weight).toFixed(2);
+  const ratio = parseInt(this.weight / compareTo.weight).toFixed(2), 10);
   const comparisonName = compareTo.name
     ? compareTo.name
     : "a " + compareTo.species;
@@ -65,7 +65,7 @@ Animal.prototype.compareWeight = function (compareTo) {
  * @returns {string} comparison result in a sentence
  */
 Animal.prototype.compareHeight = function (compareTo) {
-  const ratio = (this.height / compareTo.height).toFixed(2);
+  const ratio = parseInt(this.height / compareTo.height).toFixed(2), 10);
   const comparisonName = compareTo.name
     ? compareTo.name
     : "a " + compareTo.species;
