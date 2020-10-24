@@ -6,17 +6,22 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
+    "webpack-cli": "^4.0.0",
     "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
+<<<<<<< dependabot/npm_and_yarn/babel/plugin-transform-runtime-7.12.1
     "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.11.5",
+=======
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.12.1",
+>>>>>>> master
     "@babel/runtime-corejs3": "^7.11.2",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^6.1.1",
+    "copy-webpack-plugin": "^6.2.1",
     "core-js": "^3.6.5",
     "html-webpack-plugin": "^4.5.0",
     "script-ext-html-webpack-plugin": "^2.1.4"
