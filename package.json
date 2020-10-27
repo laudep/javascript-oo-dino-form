@@ -10,11 +10,15 @@
     "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
+<<<<<<< dependabot/npm_and_yarn/babel/core-7.12.3
+    "@babel/core": "^7.12.3",
+=======
     "@babel/core": "^7.11.6",
 <<<<<<< dependabot/npm_and_yarn/babel/plugin-transform-runtime-7.12.1
     "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.11.5",
 =======
+>>>>>>> master
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.12.1",
 <<<<<<< dependabot/npm_and_yarn/babel/runtime-corejs3-7.12.1
