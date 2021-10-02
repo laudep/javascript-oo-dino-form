@@ -1,6 +1,7 @@
 # OO Javascript: Dinosaur form
 
-This project is an exercise in intermediate JavaScript, with a focus on pre-ES6 Object Orientation.  
+This project was completed as an exercise in intermediate JavaScript, with a focus on pre-ES6 Object Orientation. 
+The solution dates from 2020 so the code is dated.
 It contains a form that allows users to compare themselves to different species of Dinosaurs.  
 
 ## Demo
